@@ -1,0 +1,55 @@
+{
+    "appKeys": {
+        "dummy": 0
+    },
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "initial Neil",
+    "longName": "initial Ticker",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/RobotoCondensed-Light.ttf",
+                "name": "FONT_ROBOTO_LIGHT_14",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Light.ttf",
+                "name": "FONT_ROBOTO_LIGHT_16",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Light.ttf",
+                "name": "FONT_ROBOTO_LIGHT_18",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Regular.ttf",
+                "name": "FONT_ROBOTO_REGULAR_16",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Regular.ttf",
+                "name": "FONT_ROBOTO_REGULAR_18",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Regular.ttf",
+                "name": "FONT_ROBOTO_REGULAR_20",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "initTick",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "ec6a946a-238b-49f1-ae4f-2013ba38c34c",
+    "versionLabel": "1.1",
+    "watchapp": {
+        "watchface": true
+    }
+}
