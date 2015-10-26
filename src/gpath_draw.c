@@ -1,5 +1,6 @@
 #include "gpath_draw.h"
 #include "gpath_weather.h"
+#include "common.h"
 
 static GPath *s_my_path_ptr = NULL;
 
@@ -65,10 +66,10 @@ void draw_custom_weather_gpath(GContext *ctx, int CUSTOM_PATH_ID, GPoint origin)
     gpath_move_to(s_my_path_ptr, origin);
     
     // Fill the path:
-    graphics_context_set_fill_color(ctx, GColorBlack);
+    graphics_context_set_fill_color(ctx, WEATHER_COLOR_FILL);
     gpath_draw_filled(ctx, s_my_path_ptr);
     // Stroke the path:
-    graphics_context_set_stroke_color(ctx, GColorWhite);
+    graphics_context_set_stroke_color(ctx, WEATHER_COLOR_STROKE);
     graphics_context_set_stroke_width(ctx, 1);
     gpath_draw_outline(ctx, s_my_path_ptr);
   }

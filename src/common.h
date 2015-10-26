@@ -25,23 +25,24 @@ static void set_pebblekit_js_ready(bool ready) {
 
 #define COLORS true
 //#define SHOW_SCREENSHOT
-#define COLOR_PRESET 0
+#define COLOR_PRESET 3
 
 #if COLOR_PRESET == 0
 
 // panel color
-#define MINUTE_DOTS_COLOR GColorLightGray
+#define MINUTE_DOTS_COLOR GColorDarkGray
 #define HOUR_DOTS_COLOR GColorLightGray
+#define HOUR_ENPHASIS_COLOR GColorWhite
 
 #define PANEL_IN_COLOR GColorBlack
 #define PANEL_OUT_COLOR GColorBlack
 
 // hand color
+#define MINUTE_HAND_COLOR GColorWhite
+#define MINUTE_HAND_INSIDE_COLOR GColorBlack
+
 #define HOUR_HAND_COLOR GColorWhite
 #define HOUR_HAND_INSIDE_COLOR GColorBlack
-
-#define MINUTE_HAND_COLOR GColorYellow
-#define MINUTE_HAND_INSIDE_COLOR GColorBlack
 
 #define SECOND_HAND_COLOR GColorChromeYellow
 
@@ -54,7 +55,7 @@ static void set_pebblekit_js_ready(bool ready) {
 #define MONTH_BACKGROUND_COLOR GColorClear
 
 // date
-#define DATE_COLOR GColorFolly
+#define DATE_COLOR GColorChromeYellow
 #define DATE_BACKGROUND_COLOR GColorClear
 
 // weekday
@@ -62,6 +63,8 @@ static void set_pebblekit_js_ready(bool ready) {
 #define WEEKDAY_BACKGROUND_COLOR GColorClear
 
 // weather
+#define WEATHER_COLOR_STROKE GColorWhite
+#define WEATHER_COLOR_FILL GColorBlack
 #define TEMPERATURE_COLOR GColorChromeYellow
 
 // city
@@ -72,16 +75,17 @@ static void set_pebblekit_js_ready(bool ready) {
 // panel color
 #define MINUTE_DOTS_COLOR GColorLightGray
 #define HOUR_DOTS_COLOR GColorDarkGray
+#define HOUR_ENPHASIS_COLOR GColorBlack
 
 #define PANEL_IN_COLOR GColorWhite
-#define PANEL_OUT_COLOR GColorWhite
+#define PANEL_OUT_COLOR GColorBlack
 
 // hand color
+#define MINUTE_HAND_COLOR GColorBlack
+#define MINUTE_HAND_INSIDE_COLOR GColorWhite
+
 #define HOUR_HAND_COLOR GColorBlack
 #define HOUR_HAND_INSIDE_COLOR GColorWhite
-
-#define MINUTE_HAND_COLOR GColorYellow
-#define MINUTE_HAND_INSIDE_COLOR GColorWhite
 
 #define SECOND_HAND_COLOR GColorChromeYellow
 
@@ -90,38 +94,41 @@ static void set_pebblekit_js_ready(bool ready) {
 #define CENTER_DOT_IN_COLOR GColorWhite
 
 // month
-#define MONTH_COLOR GColorBlack
+#define MONTH_COLOR GColorWhite
 #define MONTH_BACKGROUND_COLOR GColorClear
 
 // date
-#define DATE_COLOR GColorBlueMoon
+#define DATE_COLOR GColorChromeYellow
 #define DATE_BACKGROUND_COLOR GColorClear
 
 // weekday
-#define WEEKDAY_COLOR GColorRoseVale
+#define WEEKDAY_COLOR GColorVividCerulean
 #define WEEKDAY_BACKGROUND_COLOR GColorClear
 
 // weather
+#define WEATHER_COLOR_STROKE GColorWhite
+#define WEATHER_COLOR_FILL GColorBlack
 #define TEMPERATURE_COLOR GColorChromeYellow
 
 // city
-#define CITY_COLOR GColorWhite
+#define CITY_COLOR GColorBlack
 
 #elif COLOR_PRESET == 2
 
 // panel color
 #define MINUTE_DOTS_COLOR GColorChromeYellow
 #define HOUR_DOTS_COLOR GColorChromeYellow
+#define HOUR_ENPHASIS_COLOR GColorBlack
 
 #define PANEL_IN_COLOR GColorBlack
 #define PANEL_OUT_COLOR GColorBlack
 
 // hand color
-#define HOUR_HAND_COLOR GColorWhite
-#define HOUR_HAND_INSIDE_COLOR GColorBlack
-
 #define MINUTE_HAND_COLOR GColorWhite
 #define MINUTE_HAND_INSIDE_COLOR GColorBlack
+
+#define HOUR_HAND_COLOR GColorWhite
+#define HOUR_HAND_INSIDE_COLOR GColorBlack
 
 #define SECOND_HAND_COLOR GColorChromeYellow
 
@@ -142,10 +149,55 @@ static void set_pebblekit_js_ready(bool ready) {
 #define WEEKDAY_BACKGROUND_COLOR GColorClear
 
 // weather
+#define WEATHER_COLOR_STROKE GColorWhite
+#define WEATHER_COLOR_FILL GColorBlack
 #define TEMPERATURE_COLOR GColorChromeYellow
 
 // city
-#define CITY_COLOR GColorWhite
+#define CITY_COLOR GColorBlack
+
+#elif COLOR_PRESET == 3
+
+// panel color
+#define MINUTE_DOTS_COLOR GColorLightGray
+#define HOUR_DOTS_COLOR GColorDarkGray
+#define HOUR_ENPHASIS_COLOR GColorDarkGray
+
+#define PANEL_IN_COLOR GColorWhite
+#define PANEL_OUT_COLOR GColorWhite
+
+// hand color
+#define MINUTE_HAND_COLOR GColorBlack
+#define MINUTE_HAND_INSIDE_COLOR GColorWhite
+
+#define HOUR_HAND_COLOR GColorBlack
+#define HOUR_HAND_INSIDE_COLOR GColorWhite
+
+#define SECOND_HAND_COLOR GColorChromeYellow
+
+// center dot color
+#define CENTER_DOT_COLOR GColorBlack
+#define CENTER_DOT_IN_COLOR GColorWhite
+
+// month
+#define MONTH_COLOR GColorBlack
+#define MONTH_BACKGROUND_COLOR GColorClear
+
+// date
+#define DATE_COLOR GColorOrange
+#define DATE_BACKGROUND_COLOR GColorClear
+
+// weekday
+#define WEEKDAY_COLOR GColorBlueMoon
+#define WEEKDAY_BACKGROUND_COLOR GColorClear
+
+// weather
+#define WEATHER_COLOR_STROKE GColorBlack
+#define WEATHER_COLOR_FILL GColorWhite
+#define TEMPERATURE_COLOR GColorOrange
+
+// city
+#define CITY_COLOR GColorBlack
 
 #endif
 

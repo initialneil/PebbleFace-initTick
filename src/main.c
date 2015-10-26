@@ -14,7 +14,7 @@
 #define ANIMATION_DURATION 500
 #define ANIMATION_DELAY    600
 
-const bool SHOW_SECOND = false;
+const bool SHOW_SECOND = true;
 
 static Window *s_main_window;
 static Layer *s_panel_layer, *s_hand_layer, *s_weather_layer;
