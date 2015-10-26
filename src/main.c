@@ -66,6 +66,9 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(s_city_layer));
   
   layer_add_child(window_layer, s_hand_layer);
+  
+  // window background color
+  window_set_background_color(window, PANEL_OUT_COLOR);
 }
 
 static void window_unload(Window *window) {

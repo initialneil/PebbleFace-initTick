@@ -49,7 +49,7 @@ static void draw_hand_from_center(GContext *ctx, GPoint dot, float s0, float s1,
   
   // draw inside the thick long bar
   graphics_context_set_stroke_color(ctx, color1);
-  graphics_context_set_stroke_width(ctx, 3);
+  graphics_context_set_stroke_width(ctx, 2);
   graphics_draw_line(ctx, dot_0, dot_1);
 }
 
@@ -89,8 +89,8 @@ static void update_hand_proc(Layer *layer, GContext *ctx) {
   // Plot Second Hand
   if (s_cur_time.seconds >= 0) {
     GPoint seconds_dot = (GPoint) {
-      .x = (int16_t)(sin_lookup(TRIG_MAX_ANGLE * s_cur_time.seconds / 60) * (int32_t)(s_radius) / TRIG_MAX_RATIO) + s_center.x,
-      .y = (int16_t)(-cos_lookup(TRIG_MAX_ANGLE * s_cur_time.seconds / 60) * (int32_t)(s_radius) / TRIG_MAX_RATIO) + s_center.y,
+      .x = (int16_t)(sin_lookup(TRIG_MAX_ANGLE * s_cur_time.seconds / 60) * (int32_t)(s_radius * 0.98) / TRIG_MAX_RATIO) + s_center.x,
+      .y = (int16_t)(-cos_lookup(TRIG_MAX_ANGLE * s_cur_time.seconds / 60) * (int32_t)(s_radius * 0.98) / TRIG_MAX_RATIO) + s_center.y,
     };
     
     dot_0 = s_center;

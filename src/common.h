@@ -25,7 +25,7 @@ static void set_pebblekit_js_ready(bool ready) {
 
 #define COLORS true
 //#define SHOW_SCREENSHOT
-#define COLOR_PRESET 3
+#define COLOR_PRESET 1
 
 #if COLOR_PRESET == 0
 
@@ -75,7 +75,7 @@ static void set_pebblekit_js_ready(bool ready) {
 // panel color
 #define MINUTE_DOTS_COLOR GColorLightGray
 #define HOUR_DOTS_COLOR GColorDarkGray
-#define HOUR_ENPHASIS_COLOR GColorBlack
+#define HOUR_ENPHASIS_COLOR GColorDarkGray
 
 #define PANEL_IN_COLOR GColorWhite
 #define PANEL_OUT_COLOR GColorBlack
