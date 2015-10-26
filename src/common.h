@@ -7,25 +7,41 @@ typedef struct {
   int seconds;
 } Time;
 
-#define COLORS true
+enum APP_MSG_TYPE {
+  PEBBLEKIT_JS_READY = 0,
+  WEATHER_ICON_KEY,
+  WEATHER_TEMPERATURE_KEY,
+  WEATHER_CITY_KEY,
+  SHOW_WEATHER,
+  SHOW_LOCATION,
+  DEFAULT_LOCATION,
+  LOCATION_OPT,
+};
 
-#define COLOR_PRESET 1
+static bool s_pebblekit_js_ready = false;
+static void set_pebblekit_js_ready(bool ready) {
+  s_pebblekit_js_ready = ready;
+}
+
+#define COLORS true
+//#define SHOW_SCREENSHOT
+#define COLOR_PRESET 0
 
 #if COLOR_PRESET == 0
 
 // panel color
-#define MINUTE_DOTS_COLOR GColorDarkGray
+#define MINUTE_DOTS_COLOR GColorLightGray
 #define HOUR_DOTS_COLOR GColorLightGray
 
 #define PANEL_IN_COLOR GColorBlack
 #define PANEL_OUT_COLOR GColorBlack
 
 // hand color
-#define MINUTE_HAND_COLOR GColorWhite
-#define MINUTE_HAND_INSIDE_COLOR GColorBlack
-
 #define HOUR_HAND_COLOR GColorWhite
 #define HOUR_HAND_INSIDE_COLOR GColorBlack
+
+#define MINUTE_HAND_COLOR GColorYellow
+#define MINUTE_HAND_INSIDE_COLOR GColorBlack
 
 #define SECOND_HAND_COLOR GColorChromeYellow
 
@@ -34,16 +50,22 @@ typedef struct {
 #define CENTER_DOT_IN_COLOR GColorBlack
 
 // month
-#define MONTH_COLOR GColorChromeYellow
+#define MONTH_COLOR GColorWhite
 #define MONTH_BACKGROUND_COLOR GColorClear
 
 // date
-#define DATE_COLOR GColorChromeYellow
+#define DATE_COLOR GColorFolly
 #define DATE_BACKGROUND_COLOR GColorClear
 
 // weekday
 #define WEEKDAY_COLOR GColorVividCerulean
 #define WEEKDAY_BACKGROUND_COLOR GColorClear
+
+// weather
+#define TEMPERATURE_COLOR GColorChromeYellow
+
+// city
+#define CITY_COLOR GColorWhite
 
 #elif COLOR_PRESET == 1
 
@@ -52,14 +74,14 @@ typedef struct {
 #define HOUR_DOTS_COLOR GColorDarkGray
 
 #define PANEL_IN_COLOR GColorWhite
-#define PANEL_OUT_COLOR GColorBlack
+#define PANEL_OUT_COLOR GColorWhite
 
 // hand color
-#define MINUTE_HAND_COLOR GColorBlack
-#define MINUTE_HAND_INSIDE_COLOR GColorWhite
-
 #define HOUR_HAND_COLOR GColorBlack
 #define HOUR_HAND_INSIDE_COLOR GColorWhite
+
+#define MINUTE_HAND_COLOR GColorYellow
+#define MINUTE_HAND_INSIDE_COLOR GColorWhite
 
 #define SECOND_HAND_COLOR GColorChromeYellow
 
@@ -72,12 +94,18 @@ typedef struct {
 #define MONTH_BACKGROUND_COLOR GColorClear
 
 // date
-#define DATE_COLOR GColorChromeYellow
+#define DATE_COLOR GColorBlueMoon
 #define DATE_BACKGROUND_COLOR GColorClear
 
 // weekday
-#define WEEKDAY_COLOR GColorVividCerulean
+#define WEEKDAY_COLOR GColorRoseVale
 #define WEEKDAY_BACKGROUND_COLOR GColorClear
+
+// weather
+#define TEMPERATURE_COLOR GColorChromeYellow
+
+// city
+#define CITY_COLOR GColorWhite
 
 #elif COLOR_PRESET == 2
 
@@ -89,11 +117,11 @@ typedef struct {
 #define PANEL_OUT_COLOR GColorBlack
 
 // hand color
-#define MINUTE_HAND_COLOR GColorWhite
-#define MINUTE_HAND_INSIDE_COLOR GColorBlack
-
 #define HOUR_HAND_COLOR GColorWhite
 #define HOUR_HAND_INSIDE_COLOR GColorBlack
+
+#define MINUTE_HAND_COLOR GColorWhite
+#define MINUTE_HAND_INSIDE_COLOR GColorBlack
 
 #define SECOND_HAND_COLOR GColorChromeYellow
 
@@ -112,6 +140,12 @@ typedef struct {
 // weekday
 #define WEEKDAY_COLOR GColorVividCerulean
 #define WEEKDAY_BACKGROUND_COLOR GColorClear
+
+// weather
+#define TEMPERATURE_COLOR GColorChromeYellow
+
+// city
+#define CITY_COLOR GColorWhite
 
 #endif
 

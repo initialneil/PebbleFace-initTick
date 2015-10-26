@@ -3,7 +3,7 @@
 
 static Layer *s_panel_layer;
 static GPoint s_center;
-const int HOUR_BAR_MARGIN = 6;
+const int HOUR_BAR_MARGIN = 0;
 static int s_radius = 0, s_win_w = 0, s_win_h = 0;
 
 Layer * init_panel_layer(Window *window) {
@@ -46,23 +46,36 @@ static void update_panel_proc(Layer *layer, GContext *ctx) {
   
   for (int i = 0; i < 60; i++) {
     // hour bar
-    if (i % 5 == 0 && i / 5 != 3) {
+    if (i % 5 == 0 && i / 5 != -1) {
       GPoint dot = (GPoint) {
         .x = (int16_t)(sin_lookup(TRIG_MAX_ANGLE * i / 60) * (int32_t)(s_radius - HOUR_BAR_MARGIN) / TRIG_MAX_RATIO) + s_center.x,
         .y = (int16_t)(-cos_lookup(TRIG_MAX_ANGLE * i / 60) * (int32_t)(s_radius - HOUR_BAR_MARGIN) / TRIG_MAX_RATIO) + s_center.y,
       };
       
       GPoint dot_start = dot;
-      dot_start.x += (s_center.x - dot.x) * 0.2;
-      dot_start.y += (s_center.y - dot.y) * 0.2;
+      dot_start.x += (s_center.x - dot.x) * 0.1;
+      dot_start.y += (s_center.y - dot.y) * 0.1;
       
       graphics_context_set_stroke_color(ctx, HOUR_DOTS_COLOR);
-      graphics_context_set_stroke_width(ctx, 3);
+      
+      // emphasis
+      if (i % 15 == 0)
+        graphics_context_set_stroke_color(ctx, GColorWhite);
+      
+      graphics_context_set_stroke_width(ctx, 2);
       graphics_draw_line(ctx, dot_start, dot);
     }
     
     // minute dots
-    graphics_context_set_stroke_color(ctx, MINUTE_DOTS_COLOR);
+    if (i % 5 == 0) {
+      graphics_context_set_stroke_color(ctx, HOUR_DOTS_COLOR);
+      
+      // emphasis
+      if (i % 15 == 0)
+        graphics_context_set_stroke_color(ctx, GColorWhite);
+    } else {
+      graphics_context_set_stroke_color(ctx, MINUTE_DOTS_COLOR);
+    }
     
     GPoint dot = (GPoint) {
       .x = (int16_t)(sin_lookup(TRIG_MAX_ANGLE * i / 60) * (int32_t)(s_radius) / TRIG_MAX_RATIO) + s_center.x,
