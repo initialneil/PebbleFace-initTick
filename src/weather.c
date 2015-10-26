@@ -44,7 +44,7 @@ void init_weather_layer(Window *window) {
   text_layer_set_font(s_temperature_layer, s_text_font);
   
   // create city TextLayer
-  s_city_layer = text_layer_create(GRect(22, s_win_h - 55, s_win_w - 44, 18));
+  s_city_layer = text_layer_create(GRect(22, s_win_h - 65, s_win_w - 44, 18));
   text_layer_set_text_color(s_city_layer, CITY_COLOR);
   text_layer_set_background_color(s_city_layer, GColorClear);
   text_layer_set_text_alignment(s_city_layer, GTextAlignmentCenter);

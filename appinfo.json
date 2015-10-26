@@ -1,6 +1,13 @@
 {
     "appKeys": {
-        "dummy": 0
+        "DEFAULT_LOCATION": 6,
+        "LOCATION_OPT": 7,
+        "PEBBLEKIT_JS_READY": 0,
+        "SHOW_LOCATION": 5,
+        "SHOW_WEATHER": 4,
+        "WEATHER_CITY_KEY": 3,
+        "WEATHER_ICON_KEY": 1,
+        "WEATHER_TEMPERATURE_KEY": 2
     },
     "capabilities": [
         "location"
@@ -11,23 +18,23 @@
     "resources": {
         "media": [
             {
-                "file": "fonts/RobotoCondensed-Light.ttf",
-                "name": "FONT_ROBOTO_LIGHT_14",
+                "file": "fonts/digital-7.ttf",
+                "name": "FONT_DIGITAL_18",
                 "type": "font"
             },
             {
-                "file": "fonts/RobotoCondensed-Light.ttf",
-                "name": "FONT_ROBOTO_LIGHT_16",
+                "file": "fonts/digital-7.ttf",
+                "name": "FONT_DIGITAL_16",
                 "type": "font"
             },
             {
-                "file": "fonts/RobotoCondensed-Light.ttf",
-                "name": "FONT_ROBOTO_LIGHT_18",
+                "file": "fonts/digital-7.ttf",
+                "name": "FONT_DIGITAL_14",
                 "type": "font"
             },
             {
                 "file": "fonts/RobotoCondensed-Regular.ttf",
-                "name": "FONT_ROBOTO_REGULAR_16",
+                "name": "FONT_ROBOTO_REGULAR_20",
                 "type": "font"
             },
             {
@@ -37,7 +44,22 @@
             },
             {
                 "file": "fonts/RobotoCondensed-Regular.ttf",
-                "name": "FONT_ROBOTO_REGULAR_20",
+                "name": "FONT_ROBOTO_REGULAR_16",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Light.ttf",
+                "name": "FONT_ROBOTO_LIGHT_18",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Light.ttf",
+                "name": "FONT_ROBOTO_LIGHT_16",
+                "type": "font"
+            },
+            {
+                "file": "fonts/RobotoCondensed-Light.ttf",
+                "name": "FONT_ROBOTO_LIGHT_14",
                 "type": "font"
             }
         ]
@@ -45,10 +67,11 @@
     "sdkVersion": "3",
     "shortName": "initTick",
     "targetPlatforms": [
-        "basalt"
+        "basalt",
+        "chalk"
     ],
     "uuid": "ec6a946a-238b-49f1-ae4f-2013ba38c34c",
-    "versionLabel": "1.1",
+    "versionLabel": "1.2",
     "watchapp": {
         "watchface": true
     }

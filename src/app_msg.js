@@ -37,7 +37,7 @@ Pebble.addEventListener('appmessage',
 
 // Show Configure
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'http://initialneil.github.io/PebbleFace-IvyTick';
+  var url = 'http://initialneil.github.io/PebbleFace-initTick/';
   console.log('Showing configuration page: ' + url);
 
   Pebble.openURL(url);

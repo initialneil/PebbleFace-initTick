@@ -3,7 +3,7 @@
 
 static Layer *s_panel_layer;
 static GPoint s_center;
-const int HOUR_BAR_MARGIN = 0;
+const int HOUR_BAR_MARGIN = 6;
 static int s_radius = 0, s_win_w = 0, s_win_h = 0;
 
 Layer * init_panel_layer(Window *window) {
@@ -53,14 +53,14 @@ static void update_panel_proc(Layer *layer, GContext *ctx) {
       };
       
       GPoint dot_start = dot;
-      dot_start.x += (s_center.x - dot.x) * 0.1;
-      dot_start.y += (s_center.y - dot.y) * 0.1;
+      dot_start.x += (s_center.x - dot.x) * 0.15;
+      dot_start.y += (s_center.y - dot.y) * 0.15;
       
       graphics_context_set_stroke_color(ctx, HOUR_DOTS_COLOR);
       
       // emphasis
       if (i % 15 == 0)
-        graphics_context_set_stroke_color(ctx, GColorWhite);
+        graphics_context_set_stroke_color(ctx, HOUR_ENPHASIS_COLOR);
       
       graphics_context_set_stroke_width(ctx, 2);
       graphics_draw_line(ctx, dot_start, dot);
@@ -72,7 +72,7 @@ static void update_panel_proc(Layer *layer, GContext *ctx) {
       
       // emphasis
       if (i % 15 == 0)
-        graphics_context_set_stroke_color(ctx, GColorWhite);
+        graphics_context_set_stroke_color(ctx, HOUR_ENPHASIS_COLOR);
     } else {
       graphics_context_set_stroke_color(ctx, MINUTE_DOTS_COLOR);
     }

@@ -28,17 +28,28 @@ Layer * init_hand_layer(Window *window) {
   return s_hand_layer;
 }
 
-static void draw_hand_from_center(GContext *ctx, GPoint dot, float s0, float s1, GColor color0, int16_t width) {  
+static void draw_hand_from_center(GContext *ctx, GPoint dot, float s0, float s1, GColor color0, GColor color1) {  
+  // draw a thin short bar
   GPoint dot_0 = s_center;
   dot_0.x += (dot.x - s_center.x) * s0;
   dot_0.y += (dot.y - s_center.y) * s0;
   
+  graphics_context_set_stroke_color(ctx, color0);
+  graphics_context_set_stroke_width(ctx, 3);
+  graphics_draw_line(ctx, s_center, dot_0);
+  
+  // draw a thick long bar
   GPoint dot_1 = s_center;
   dot_1.x += (dot.x - s_center.x) * s1;
   dot_1.y += (dot.y - s_center.y) * s1;
   
   graphics_context_set_stroke_color(ctx, color0);
-  graphics_context_set_stroke_width(ctx, width);
+  graphics_context_set_stroke_width(ctx, 6);
+  graphics_draw_line(ctx, dot_0, dot_1);
+  
+  // draw inside the thick long bar
+  graphics_context_set_stroke_color(ctx, color1);
+  graphics_context_set_stroke_width(ctx, 3);
   graphics_draw_line(ctx, dot_0, dot_1);
 }
 
@@ -65,13 +76,13 @@ static void update_hand_proc(Layer *layer, GContext *ctx) {
   };
   
   // draw hour hand and minute hand
-  draw_hand_from_center(ctx, hours_dot, 0, 0.6, HOUR_HAND_COLOR, 20);
-  draw_hand_from_center(ctx, minutes_dot, -0.2, 0.95, MINUTE_HAND_COLOR, 2);
+  draw_hand_from_center(ctx, hours_dot, 0.2, 0.6, HOUR_HAND_COLOR, HOUR_HAND_INSIDE_COLOR);
+  draw_hand_from_center(ctx, minutes_dot, 0.2, 0.95, MINUTE_HAND_COLOR, MINUTE_HAND_INSIDE_COLOR);
   
   // Draw center dot
   graphics_context_set_antialiased(ctx, false);
-  //graphics_context_set_fill_color(ctx, CENTER_DOT_COLOR);
-  //graphics_fill_circle(ctx, s_center, 4);
+  graphics_context_set_fill_color(ctx, CENTER_DOT_COLOR);
+  graphics_fill_circle(ctx, s_center, 4);
   graphics_context_set_fill_color(ctx, CENTER_DOT_IN_COLOR);
   graphics_fill_circle(ctx, s_center, 2);
   
@@ -116,7 +127,12 @@ void set_hand_cur_time(struct tm *tick_time, bool SHOW_SECOND) {
 #ifdef SHOW_SCREENSHOT
   s_cur_time.hours = 10;
   s_cur_time.minutes = 10;
-  s_cur_time.seconds = -1;
+  
+  // show second or not
+  if (SHOW_SECOND)
+    s_cur_time.seconds = 30;
+  else
+    s_cur_time.seconds = -1;
 #endif
 
   // Redraw
