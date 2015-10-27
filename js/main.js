@@ -15,11 +15,13 @@ function submitHandler() {
 }
 
 function loadOptions() {
+  var $show_second = $('input[name=show-second]');
   var $show_weather = $('input[name=show-weather]');
   var $show_location = $('input[name=show-location]');
   var $default_location = $('input[name=default-location]');
 
   if (localStorage.getItem("show_weather")) {
+    $show_second[0].checked = localStorage.show_second === 'true';
     $show_weather[0].checked = localStorage.show_weather === 'true';
     $show_location[0].checked = localStorage.show_location === 'true';
     $default_location.val(localStorage.default_location);
@@ -36,18 +38,21 @@ function loadOptions() {
 }
 
 function getAndStoreConfigData() {
+  var $show_second = $('input[name=show-second]');
   var $show_weather = $('input[name=show-weather]');
   var $show_location = $('input[name=show-location]');
   var $default_location = $('input[name=default-location]');
   var $location_opt = $('select[name=location-opt]');
 
   var options = {
+    show_second: $show_second[0].checked,
     show_weather: $show_weather[0].checked,
     show_location: $show_location[0].checked,
     default_location: $default_location.val(),
     location_opt: $location_opt.val(),
   };
 
+  localStorage.show_second = options.show_second;
   localStorage.show_weather = options.show_weather;
   localStorage.show_location = options.show_location;
   localStorage.default_location = options.default_location;
