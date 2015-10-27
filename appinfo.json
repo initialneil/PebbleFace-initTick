@@ -1,13 +1,14 @@
 {
     "appKeys": {
-        "DEFAULT_LOCATION": 6,
-        "LOCATION_OPT": 7,
+        "DEFAULT_LOCATION": 7,
+        "LOCATION_OPT": 8,
         "PEBBLEKIT_JS_READY": 0,
-        "SHOW_LOCATION": 5,
-        "SHOW_WEATHER": 4,
-        "WEATHER_CITY_KEY": 3,
-        "WEATHER_ICON_KEY": 1,
-        "WEATHER_TEMPERATURE_KEY": 2
+        "SHOW_LOCATION": 6,
+        "SHOW_SECOND": 1,
+        "SHOW_WEATHER": 5,
+        "WEATHER_CITY_KEY": 4,
+        "WEATHER_ICON_KEY": 2,
+        "WEATHER_TEMPERATURE_KEY": 3
     },
     "capabilities": [
         "location",
@@ -20,7 +21,7 @@
         "media": [
             {
                 "file": "fonts/digital-7.ttf",
-                "name": "FONT_DIGITAL_14",
+                "name": "FONT_DIGITAL_18",
                 "type": "font"
             },
             {
@@ -30,12 +31,12 @@
             },
             {
                 "file": "fonts/digital-7.ttf",
-                "name": "FONT_DIGITAL_18",
+                "name": "FONT_DIGITAL_14",
                 "type": "font"
             },
             {
                 "file": "fonts/RobotoCondensed-Regular.ttf",
-                "name": "FONT_ROBOTO_REGULAR_16",
+                "name": "FONT_ROBOTO_REGULAR_20",
                 "type": "font"
             },
             {
@@ -45,12 +46,12 @@
             },
             {
                 "file": "fonts/RobotoCondensed-Regular.ttf",
-                "name": "FONT_ROBOTO_REGULAR_20",
+                "name": "FONT_ROBOTO_REGULAR_16",
                 "type": "font"
             },
             {
                 "file": "fonts/RobotoCondensed-Light.ttf",
-                "name": "FONT_ROBOTO_LIGHT_14",
+                "name": "FONT_ROBOTO_LIGHT_18",
                 "type": "font"
             },
             {
@@ -60,7 +61,7 @@
             },
             {
                 "file": "fonts/RobotoCondensed-Light.ttf",
-                "name": "FONT_ROBOTO_LIGHT_18",
+                "name": "FONT_ROBOTO_LIGHT_14",
                 "type": "font"
             }
         ]

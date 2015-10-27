@@ -1,20 +1,11 @@
 #include <pebble.h>
 #include "common.h"
+#include "tick.h"
 #include "panel.h"
 #include "hand.h"
 #include "text.h"
 #include "weather.h"
 #include "app_msg.h"
-
-#define ANTIALIASING true
-
-#define HAND_MARGIN  10
-#define FINAL_RADIUS 55
-
-#define ANIMATION_DURATION 500
-#define ANIMATION_DELAY    600
-
-const bool SHOW_SECOND = true;
 
 static Window *s_main_window;
 static Layer *s_panel_layer, *s_hand_layer, *s_weather_layer;
@@ -26,18 +17,6 @@ static bool s_show_weather = true, s_show_location = true;
 static char s_default_location[32], s_location_opt[32];
 
 /************************************ UI **************************************/
-static void hand_tick_handler(struct tm *tick_time, TimeUnits changed) {
-  // update hand
-  set_hand_cur_time(tick_time, SHOW_SECOND);
-  
-  // update date
-  set_date_layer_cur_time(tick_time);
-  
-  // update weather
-  if (tick_time->tm_min % 30 == 0)
-    update_weather_with_app_msg();
-}
-
 static void window_load(Window *window) {
   // init layers
   s_panel_layer = init_panel_layer(window);
@@ -87,7 +66,12 @@ static void window_unload(Window *window) {
 }
 
 static void init_config() {
+  load_default_config(&config);
+  
   // display
+  if (persist_exists(SHOW_SECOND))
+    config.SHOW_SECOND = persist_read_bool(SHOW_SECOND);
+  
   if (persist_exists(SHOW_WEATHER))
     s_show_weather = persist_read_bool(SHOW_WEATHER);
   
@@ -137,18 +121,12 @@ static void init() {
   
   // init configuration
   init_config();
-
-  // handle tick now
-  time_t t = time(NULL);
-  struct tm *time_now = localtime(&t);
-  hand_tick_handler(time_now, 0);
+  
+  // init weather
   refresh_weather_display();
   
   // subscribe on time tick
-  if (SHOW_SECOND)
-    tick_timer_service_subscribe(SECOND_UNIT, hand_tick_handler);
-  else
-    tick_timer_service_subscribe(MINUTE_UNIT, hand_tick_handler);
+  update_hand_show_second(config);
   
   // register app message callbacks
   app_message_register_inbox_received(inbox_received_callback);

@@ -7,6 +7,8 @@ static int s_radius = 0, s_win_w = 0, s_win_h = 0;
 
 static Time s_cur_time;
 
+static void update_hand_proc(Layer *layer, GContext *ctx);
+
 Layer * init_hand_layer(Window *window) {
   APP_LOG(APP_LOG_LEVEL_INFO, "init hand layer");
   

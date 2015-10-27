@@ -1,7 +1,11 @@
 #include "app_msg.h"
+#include "common.h"
+#include "tick.h"
+#include "hand.h"
 #include "weather.h"
 
 // Store incoming information
+static struct CONFIG_TYPE config_msg;
 static char temperature_buffer[8];
 static char conditions_buffer[32];
 static char city_buffer[32], default_location_buffer[32], location_opt_buffer[32];
@@ -25,6 +29,26 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         update_weather_with_app_msg();
         break;
       
+      // Display Second
+      case SHOW_SECOND:
+        config_msg.SHOW_SECOND = t->value->int8;
+        APP_LOG(APP_LOG_LEVEL_INFO, "show second = %d", config_msg.SHOW_SECOND);
+        update_hand_show_second(config_msg);
+        break;
+      
+      // Display Weather & Location
+      case SHOW_WEATHER:
+        s_show_weather = t->value->int8;
+        APP_LOG(APP_LOG_LEVEL_INFO, "show weather = %d", s_show_weather);
+        config_weather_layer(s_show_weather, s_show_location);
+        break;
+      
+      case SHOW_LOCATION:
+        s_show_location = t->value->int8;
+        APP_LOG(APP_LOG_LEVEL_INFO, "show location = %d", s_show_location);
+        config_weather_layer(s_show_weather, s_show_location);
+        break;
+      
       // Weather Info
       case WEATHER_ICON_KEY:
         snprintf(conditions_buffer, sizeof(conditions_buffer), "%s", t->value->cstring);
@@ -44,17 +68,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         set_city_buffer(city_buffer);
         break;
         
-      // Display Weather & Location
-      case SHOW_WEATHER:
-        s_show_weather = t->value->int8;
-        APP_LOG(APP_LOG_LEVEL_INFO, "show weather = %d", s_show_weather);
-        break;
-      
-      case SHOW_LOCATION:
-        s_show_location = t->value->int8;
-        APP_LOG(APP_LOG_LEVEL_INFO, "show location = %d", s_show_location);
-        break;
-      
+      // location setting      
       case DEFAULT_LOCATION:
         snprintf(default_location_buffer, sizeof(city_buffer), "%s", t->value->cstring);
         APP_LOG(APP_LOG_LEVEL_INFO, "default location = %s", default_location_buffer);
@@ -65,6 +79,10 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         snprintf(location_opt_buffer, sizeof(city_buffer), "%s", t->value->cstring);
         APP_LOG(APP_LOG_LEVEL_INFO, "location opt = %s", location_opt_buffer);
         set_location_opt(location_opt_buffer);
+        break;
+      
+      case APP_MSG_OUT_OF_MEMORY:
+        APP_LOG(APP_LOG_LEVEL_ERROR, "Out of memory!");
         break;
         
       default:
@@ -77,7 +95,6 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   }
   
   // Update weather layer
-  config_weather_layer(s_show_weather, s_show_location);
   refresh_weather_display();
 }
 

@@ -1,6 +1,6 @@
 // Got from OpenWeatherMap's API example
 var myAPIKey = 'bd82977b86bf27fb59a04b61b657fb6f';
-var show_weather, show_location;
+var show_second, show_weather, show_location;
 var default_location = "", location_opt = "";
 
 // Listen for when the watchface is opened
@@ -48,6 +48,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
   var configData = JSON.parse(decodeURIComponent(e.response));
   console.log('Configuration page returned: ' + JSON.stringify(configData));
 
+  show_second = configData.show_second;
   show_weather = configData.show_weather;
   show_location = configData.show_location;
   default_location = configData.default_location;
@@ -58,6 +59,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
   console.log("location_opt = " + location_opt);
 
   var dict = {
+    'SHOW_SECOND': show_second,
     'SHOW_WEATHER': show_weather,
     'SHOW_LOCATION': show_location,
     'DEFAULT_LOCATION': default_location,
