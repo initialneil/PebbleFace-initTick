@@ -40,7 +40,7 @@ function loadOptions() {
   $('input.item-color').each(function() {
     var name = $(this).attr('name');
     var key = name.replace(/\-/g, '_');
-    if (localStorage.getItem("key"))
+    if (localStorage.getItem(key))
       $(this).val(localStorage[key]);
   });
 }
