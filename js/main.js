@@ -35,6 +35,14 @@ function loadOptions() {
       }
     });
   }
+  
+  // process colors
+  $('input.item-color').each(function() {
+    var name = $(this).attr('name');
+    var key = name.replace(/\-/g, '_');
+    if (localStorage.getItem("key"))
+      $(this).val(localStorage[key]);
+  });
 }
 
 function getAndStoreConfigData() {
@@ -57,6 +65,17 @@ function getAndStoreConfigData() {
   localStorage.show_location = options.show_location;
   localStorage.default_location = options.default_location;
   localStorage.location_opt = options.location_opt;
+  
+  // process colors
+  var color_scheme = "";
+  $('input.item-color').each(function() {
+    var name = $(this).attr('name');
+    var val = $(this).val();
+    var key = name.replace(/\-/g, '_');
+    color_scheme += key + "," + val + ",";
+    localStorage[key] = val;
+  });
+  options.color_scheme = (color_scheme);
 
   console.log('Got options: ' + JSON.stringify(options));
   return options;
