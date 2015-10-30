@@ -2,6 +2,7 @@
 var myAPIKey = 'bd82977b86bf27fb59a04b61b657fb6f';
 var show_second, show_weather, show_location;
 var default_location = "", location_opt = "";
+var color_scheme = "";
 
 // Listen for when the watchface is opened
 Pebble.addEventListener('ready', 
@@ -53,10 +54,13 @@ Pebble.addEventListener('webviewclosed', function(e) {
   show_location = configData.show_location;
   default_location = configData.default_location;
   location_opt = configData.location_opt;
+  color_scheme = configData.color_scheme;
+  
   console.log("show_weather = " + show_weather);
   console.log("show_location = " + show_location);
   console.log("default_location = " + default_location);
   console.log("location_opt = " + location_opt);
+  console.log("color_scheme = " + color_scheme);
 
   var dict = {
     'SHOW_SECOND': show_second,
@@ -64,6 +68,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
     'SHOW_LOCATION': show_location,
     'DEFAULT_LOCATION': default_location,
     'LOCATION_OPT': location_opt,
+    'COLOR_SCHEME': color_scheme,
   };
 
   // Send to watchapp

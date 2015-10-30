@@ -1,10 +1,9 @@
 #include "hand.h"
-#include "common.h"
 
 static Layer *s_hand_layer;
 static GPoint s_center;
 static int s_radius = 0, s_win_w = 0, s_win_h = 0;
-
+static struct CONFIG_TYPE *config;
 static Time s_cur_time;
 
 static void update_hand_proc(Layer *layer, GContext *ctx);
@@ -28,6 +27,10 @@ Layer * init_hand_layer(Window *window) {
   layer_set_update_proc(s_hand_layer, update_hand_proc);
   
   return s_hand_layer;
+}
+
+void pass_config_to_hand(struct CONFIG_TYPE *app_config) {
+  config = app_config;
 }
 
 static void draw_hand_from_center(GContext *ctx, GPoint dot, float s0, float s1, GColor color0, GColor color1) {  
@@ -78,14 +81,14 @@ static void update_hand_proc(Layer *layer, GContext *ctx) {
   };
   
   // draw hour hand and minute hand
-  draw_hand_from_center(ctx, hours_dot, 0.2, 0.6, HOUR_HAND_COLOR, HOUR_HAND_INSIDE_COLOR);
-  draw_hand_from_center(ctx, minutes_dot, 0.2, 0.95, MINUTE_HAND_COLOR, MINUTE_HAND_INSIDE_COLOR);
+  draw_hand_from_center(ctx, hours_dot, 0.2, 0.6, config->HOUR_HAND_COLOR, config->HOUR_HAND_INSIDE_COLOR);
+  draw_hand_from_center(ctx, minutes_dot, 0.2, 0.95, config->MINUTE_HAND_COLOR, config->MINUTE_HAND_INSIDE_COLOR);
   
   // Draw center dot
   graphics_context_set_antialiased(ctx, false);
-  graphics_context_set_fill_color(ctx, CENTER_DOT_COLOR);
+  graphics_context_set_fill_color(ctx, config->CENTER_DOT_COLOR);
   graphics_fill_circle(ctx, s_center, 4);
-  graphics_context_set_fill_color(ctx, CENTER_DOT_IN_COLOR);
+  graphics_context_set_fill_color(ctx, config->CENTER_DOT_IN_COLOR);
   graphics_fill_circle(ctx, s_center, 2);
   
   // Plot Second Hand
@@ -103,14 +106,14 @@ static void update_hand_proc(Layer *layer, GContext *ctx) {
     dot_1.x -= (seconds_dot.x - s_center.x) * 0.2;
     dot_1.y -= (seconds_dot.y - s_center.y) * 0.2;
     
-    graphics_context_set_stroke_color(ctx, SECOND_HAND_COLOR);
+    graphics_context_set_stroke_color(ctx, config->SECOND_HAND_COLOR);
     graphics_context_set_stroke_width(ctx, 2);
     graphics_draw_line(ctx, dot_0, dot_1);
     
     // second hand certer dot
-    graphics_context_set_fill_color(ctx, SECOND_HAND_COLOR);
+    graphics_context_set_fill_color(ctx, config->SECOND_HAND_COLOR);
     graphics_fill_circle(ctx, s_center, 3);
-    graphics_context_set_fill_color(ctx, GColorBlack);
+    graphics_context_set_fill_color(ctx, config->CENTER_DOT_IN_COLOR);
     graphics_fill_circle(ctx, s_center, 1);
   }
 }

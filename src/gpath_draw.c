@@ -1,10 +1,9 @@
 #include "gpath_draw.h"
 #include "gpath_weather.h"
-#include "common.h"
 
 static GPath *s_my_path_ptr = NULL;
 
-void draw_custom_weather_gpath(GContext *ctx, int CUSTOM_PATH_ID, GPoint origin) {
+void draw_custom_weather_gpath(GContext *ctx, int CUSTOM_PATH_ID, GPoint origin, struct CONFIG_TYPE *config) {
   int path_num = 0;
   const struct GPathInfo *path;
   
@@ -55,7 +54,7 @@ void draw_custom_weather_gpath(GContext *ctx, int CUSTOM_PATH_ID, GPoint origin)
       break;
     
     default:
-      path_num = -1;
+      path_num = TIMELINE_WEATHER_PATH_COUNT;
       path = TIMELINE_WEATHER_PATHS;
       break;
   }
@@ -66,16 +65,18 @@ void draw_custom_weather_gpath(GContext *ctx, int CUSTOM_PATH_ID, GPoint origin)
     gpath_move_to(s_my_path_ptr, origin);
     
     // Fill the path:
-    graphics_context_set_fill_color(ctx, WEATHER_COLOR_FILL);
+    graphics_context_set_fill_color(ctx, config->WEATHER_COLOR_FILL);
     gpath_draw_filled(ctx, s_my_path_ptr);
     // Stroke the path:
-    graphics_context_set_stroke_color(ctx, WEATHER_COLOR_STROKE);
+    graphics_context_set_stroke_color(ctx, config->WEATHER_COLOR_STROKE);
     graphics_context_set_stroke_width(ctx, 1);
     gpath_draw_outline(ctx, s_my_path_ptr);
+    
+    // Release
+    gpath_destroy(s_my_path_ptr);
+    //APP_LOG(APP_LOG_LEVEL_DEBUG, "Heap Available: %d", heap_bytes_free());
   }
 }
 
-void custom_weather_gpath_destroy() {
-  gpath_destroy(s_my_path_ptr);
-}
+void custom_weather_gpath_destroy() {}
 

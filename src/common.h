@@ -1,5 +1,6 @@
 #pragma once
 #include <pebble.h>
+#include "config.h"
 
 //#define SHOW_SCREENSHOT
 
@@ -20,6 +21,7 @@ enum APP_MSG_TYPE {
   SHOW_LOCATION,
   DEFAULT_LOCATION,
   LOCATION_OPT,
+  COLOR_SCHEME,
 };
 
 static bool s_pebblekit_js_ready = false;
@@ -27,16 +29,41 @@ static void set_pebblekit_js_ready(bool ready) {
   s_pebblekit_js_ready = ready;
 }
 
-static struct CONFIG_TYPE {
-  bool SHOW_SECOND;
-} config;
+// convert color in string to UInt
+static const char ASCII_0_VALU = 48;
+static const char ASCII_9_VALU = 57;
+static const char ASCII_A_VALU = 65;
+static const char ASCII_F_VALU = 70;
+static unsigned int HexStringToUInt(char const* hexstring) {
+  unsigned int result = 0;
+  char const *c = hexstring;
+  char thisC;
+  while( (thisC = *c) != 0 )
+  {
+    unsigned int add = 0;
 
-static void load_default_config(struct CONFIG_TYPE *config) {
-  config->SHOW_SECOND = true;
+    result <<= 4;
+    if( thisC >= ASCII_0_VALU &&  thisC <= ASCII_9_VALU )
+      add = thisC - ASCII_0_VALU;
+    else if( thisC >= ASCII_A_VALU && thisC <= ASCII_F_VALU)
+      add = thisC - ASCII_A_VALU + 10;
+      else {
+      add = 0;
+      //printf("Unrecognised hex character \"%c\"\n", thisC);
+      //return 0;
+    }
+    result += add;
+    ++c;
+  }
+  return result;
+}
+
+static GColor HexStringToGColor(char const* hexstring) {
+  return GColorFromHEX(HexStringToUInt(hexstring));
 }
 
 #define COLORS true
-#define COLOR_PRESET 3
+#define COLOR_PRESET -1
 
 #if COLOR_PRESET == 0
 
@@ -75,7 +102,7 @@ static void load_default_config(struct CONFIG_TYPE *config) {
 
 // weather
 #define WEATHER_COLOR_STROKE GColorWhite
-#define WEATHER_COLOR_FILL GColorBlack
+#define WEATHER_COLOR_FILL GColorClear
 #define TEMPERATURE_COLOR GColorChromeYellow
 
 // city
@@ -118,7 +145,7 @@ static void load_default_config(struct CONFIG_TYPE *config) {
 
 // weather
 #define WEATHER_COLOR_STROKE GColorWhite
-#define WEATHER_COLOR_FILL GColorBlack
+#define WEATHER_COLOR_FILL GColorClear
 #define TEMPERATURE_COLOR GColorChromeYellow
 
 // city
@@ -161,7 +188,7 @@ static void load_default_config(struct CONFIG_TYPE *config) {
 
 // weather
 #define WEATHER_COLOR_STROKE GColorWhite
-#define WEATHER_COLOR_FILL GColorBlack
+#define WEATHER_COLOR_FILL GColorClear
 #define TEMPERATURE_COLOR GColorChromeYellow
 
 // city
@@ -204,7 +231,7 @@ static void load_default_config(struct CONFIG_TYPE *config) {
 
 // weather
 #define WEATHER_COLOR_STROKE GColorWhite
-#define WEATHER_COLOR_FILL GColorBlack
+#define WEATHER_COLOR_FILL GColorClear
 #define TEMPERATURE_COLOR GColorChromeYellow
 
 // city

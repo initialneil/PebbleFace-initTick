@@ -1,7 +1,9 @@
 #pragma once
 #include <pebble.h>
+#include "common.h"
 
 void init_weather_layer(Window *window);
+void pass_config_to_weather(struct CONFIG_TYPE *app_config);
 Layer * get_weather_layer();
 TextLayer * get_temperature_layer();
 TextLayer * get_city_layer();

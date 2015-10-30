@@ -1,5 +1,6 @@
 #pragma once
 #include <pebble.h>
+#include "common.h"
 
 enum WEATHER_GPATH_ID_TYPE {
   CLOUDY_DAY = 0,
@@ -14,6 +15,6 @@ enum WEATHER_GPATH_ID_TYPE {
   WEATHER_UNKNOWN,
 };
 
-void draw_custom_weather_gpath(GContext *ctx, int CUSTOM_PATH_ID, GPoint origin);
+void draw_custom_weather_gpath(GContext *ctx, int CUSTOM_PATH_ID, GPoint origin, struct CONFIG_TYPE *config);
 
 void custom_weather_gpath_destroy();

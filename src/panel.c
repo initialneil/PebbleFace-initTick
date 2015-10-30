@@ -1,10 +1,10 @@
 #include "panel.h"
-#include "common.h"
 
 static Layer *s_panel_layer;
 static GPoint s_center;
 const int HOUR_BAR_MARGIN = 6;
 static int s_radius = 0, s_win_w = 0, s_win_h = 0;
+static struct CONFIG_TYPE *config;
 
 Layer * init_panel_layer(Window *window) {
   APP_LOG(APP_LOG_LEVEL_INFO, "init panel layer");
@@ -29,16 +29,20 @@ Layer * init_panel_layer(Window *window) {
   return s_panel_layer;
 }
 
+void pass_config_to_panel(struct CONFIG_TYPE *app_config) {
+  config = app_config;
+}
+
 static void update_panel_proc(Layer *layer, GContext *ctx) {
   APP_LOG(APP_LOG_LEVEL_INFO, "update panel layer");
   
   // Color background
   GRect bounds = layer_get_bounds(layer);
 
-  graphics_context_set_fill_color(ctx, PANEL_OUT_COLOR);
+  graphics_context_set_fill_color(ctx, config->PANEL_OUT_COLOR);
   graphics_fill_rect(ctx, bounds, 0, GCornerNone);
   
-  graphics_context_set_fill_color(ctx, PANEL_IN_COLOR);
+  graphics_context_set_fill_color(ctx, config->PANEL_IN_COLOR);
   graphics_fill_circle(ctx, s_center, s_radius + 1);
   
   // Plot Dots
@@ -56,11 +60,11 @@ static void update_panel_proc(Layer *layer, GContext *ctx) {
       dot_start.x += (s_center.x - dot.x) * 0.15;
       dot_start.y += (s_center.y - dot.y) * 0.15;
       
-      graphics_context_set_stroke_color(ctx, HOUR_DOTS_COLOR);
+      graphics_context_set_stroke_color(ctx, config->HOUR_DOTS_COLOR);
       
       // emphasis
       if (i % 15 == 0)
-        graphics_context_set_stroke_color(ctx, HOUR_ENPHASIS_COLOR);
+        graphics_context_set_stroke_color(ctx, config->HOUR_ENPHASIS_COLOR);
       
       graphics_context_set_stroke_width(ctx, 2);
       graphics_draw_line(ctx, dot_start, dot);
@@ -68,13 +72,13 @@ static void update_panel_proc(Layer *layer, GContext *ctx) {
     
     // minute dots
     if (i % 5 == 0) {
-      graphics_context_set_stroke_color(ctx, HOUR_DOTS_COLOR);
+      graphics_context_set_stroke_color(ctx, config->HOUR_DOTS_COLOR);
       
       // emphasis
       if (i % 15 == 0)
-        graphics_context_set_stroke_color(ctx, HOUR_ENPHASIS_COLOR);
+        graphics_context_set_stroke_color(ctx, config->HOUR_ENPHASIS_COLOR);
     } else {
-      graphics_context_set_stroke_color(ctx, MINUTE_DOTS_COLOR);
+      graphics_context_set_stroke_color(ctx, config->MINUTE_DOTS_COLOR);
     }
     
     GPoint dot = (GPoint) {

@@ -1,5 +1,6 @@
 {
     "appKeys": {
+        "COLOR_SCHEME": 9,
         "DEFAULT_LOCATION": 7,
         "LOCATION_OPT": 8,
         "PEBBLEKIT_JS_READY": 0,
@@ -73,7 +74,7 @@
         "chalk"
     ],
     "uuid": "ec6a946a-238b-49f1-ae4f-2013ba38c34c",
-    "versionLabel": "1.22",
+    "versionLabel": "1.24",
     "watchapp": {
         "watchface": true
     }

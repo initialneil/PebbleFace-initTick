@@ -1,5 +1,4 @@
 #include "weather.h"
-#include "common.h"
 #include "gpath_draw.h"
 
 static Layer *s_weather_layer;
@@ -8,7 +7,8 @@ static GFont s_text_font;
 
 static GPoint s_center;
 static int s_radius = 0, s_win_w = 0, s_win_h = 0;
-
+static struct CONFIG_TYPE *config;
+  
 static int WEATHER_GPATH_ID = WEATHER_UNKNOWN;
 static char *s_conditions_buffer, *s_temperature_buffer, *s_city_buffer;
 static bool s_show_weather = true, s_show_location = true;
@@ -38,17 +38,16 @@ void init_weather_layer(Window *window) {
   // create temperature TextLayer
   //s_temperature_layer = text_layer_create(GRect(s_win_w - 48, s_win_h - 18, 30, 18));
   s_temperature_layer = text_layer_create(GRect(1, s_win_h - 20, 30, 18));
-  text_layer_set_text_color(s_temperature_layer, TEMPERATURE_COLOR);
-  text_layer_set_background_color(s_temperature_layer, GColorClear);
-  text_layer_set_text_alignment(s_temperature_layer, GTextAlignmentLeft);
-  text_layer_set_font(s_temperature_layer, s_text_font);
   
   // create city TextLayer
   s_city_layer = text_layer_create(GRect(22, s_win_h - 65, s_win_w - 44, 18));
-  text_layer_set_text_color(s_city_layer, CITY_COLOR);
-  text_layer_set_background_color(s_city_layer, GColorClear);
-  text_layer_set_text_alignment(s_city_layer, GTextAlignmentCenter);
-  text_layer_set_font(s_city_layer, s_text_font);
+  
+  // refresh weather config
+  refresh_weather_display();
+}
+
+void pass_config_to_weather(struct CONFIG_TYPE *app_config) {
+  config = app_config;
 }
 
 Layer * get_weather_layer() {
@@ -114,10 +113,30 @@ static void update_weather_proc(Layer *layer, GContext *ctx) {
   APP_LOG(APP_LOG_LEVEL_INFO, "update weather layer");
     
   GPoint weather_origin = GPoint(0, 0);
-  draw_custom_weather_gpath(ctx, WEATHER_GPATH_ID, weather_origin);
+  draw_custom_weather_gpath(ctx, WEATHER_GPATH_ID, weather_origin, config);
 }
 
 void refresh_weather_display() {
+  APP_LOG(APP_LOG_LEVEL_INFO, "refresh weather display");
+  
+  // config temperature TextLayer
+  text_layer_set_text_color(s_temperature_layer, config->TEMPERATURE_COLOR);
+  text_layer_set_background_color(s_temperature_layer, GColorClear);
+  text_layer_set_text_alignment(s_temperature_layer, GTextAlignmentLeft);
+  text_layer_set_font(s_temperature_layer, s_text_font);
+  
+  // config city TextLayer
+  text_layer_set_text_color(s_city_layer, config->CITY_COLOR);
+  text_layer_set_background_color(s_city_layer, GColorClear);
+  text_layer_set_text_alignment(s_city_layer, GTextAlignmentCenter);
+  text_layer_set_font(s_city_layer, s_text_font);
+  
+  // refresh weather
+  if (s_conditions_buffer == NULL)
+    return;
+  
+  APP_LOG(APP_LOG_LEVEL_INFO, "refresh weather and temperature");
+  
   if (strcmp(s_conditions_buffer, "Thunderstorm") == 0) {
     WEATHER_GPATH_ID = HEAVY_RAIN;
   } else if (strcmp(s_conditions_buffer, "Drizzle") == 0) {

@@ -9,6 +9,7 @@ static struct CONFIG_TYPE config_msg;
 static char temperature_buffer[8];
 static char conditions_buffer[32];
 static char city_buffer[32], default_location_buffer[32], location_opt_buffer[32];
+static char color_scheme[1024];
 
 static bool s_show_weather = true, s_show_location = true;
 
@@ -70,7 +71,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         
       // location setting      
       case DEFAULT_LOCATION:
-        snprintf(default_location_buffer, sizeof(city_buffer), "%s", t->value->cstring);
+        snprintf(default_location_buffer, sizeof(default_location_buffer), "%s", t->value->cstring);
         APP_LOG(APP_LOG_LEVEL_INFO, "default location = %s", default_location_buffer);
         set_default_location(default_location_buffer);
         break;
@@ -79,6 +80,13 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         snprintf(location_opt_buffer, sizeof(city_buffer), "%s", t->value->cstring);
         APP_LOG(APP_LOG_LEVEL_INFO, "location opt = %s", location_opt_buffer);
         set_location_opt(location_opt_buffer);
+        break;
+      
+      // color scheme
+      case COLOR_SCHEME:
+        snprintf(color_scheme, sizeof(color_scheme), "%s", t->value->cstring);
+        APP_LOG(APP_LOG_LEVEL_INFO, "color_scheme = %s", color_scheme);
+        update_color_scheme(color_scheme);
         break;
       
       case APP_MSG_OUT_OF_MEMORY:
@@ -95,6 +103,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   }
   
   // Update weather layer
+  refresh_text_config();
   refresh_weather_display();
 }
 

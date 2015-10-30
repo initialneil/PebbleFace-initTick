@@ -12,9 +12,11 @@ static Layer *s_panel_layer, *s_hand_layer, *s_weather_layer;
 static TextLayer *s_month_layer, *s_date_layer, *s_weekday_layer;
 static TextLayer *s_temperature_layer, *s_city_layer;
 
+static struct CONFIG_TYPE config;
 static char s_conditions_buffer[32], s_temperature_buffer[32], s_city_buffer[32];
 static bool s_show_weather = true, s_show_location = true;
 static char s_default_location[32], s_location_opt[32];
+static char color_scheme[1024];
 
 /************************************ UI **************************************/
 static void window_load(Window *window) {
@@ -46,8 +48,11 @@ static void window_load(Window *window) {
   
   layer_add_child(window_layer, s_hand_layer);
   
-  // window background color
-  window_set_background_color(window, PANEL_OUT_COLOR);
+  // set initial config
+  config_weather_layer(s_show_weather, s_show_location);
+  config_location_setting(s_default_location, s_location_opt);
+  config_weather_buffer(s_conditions_buffer, s_temperature_buffer, s_city_buffer);
+  window_set_background_color(window, config.PANEL_OUT_COLOR);
 }
 
 static void window_unload(Window *window) {
@@ -66,7 +71,13 @@ static void window_unload(Window *window) {
 }
 
 static void init_config() {
+  // load config from "config.h"
   load_default_config(&config);
+  pass_config_to_tick(&config);
+  pass_config_to_panel(&config);
+  pass_config_to_hand(&config);
+  pass_config_to_text(&config);
+  pass_config_to_weather(&config);
   
   // display
   if (persist_exists(SHOW_SECOND))
@@ -77,8 +88,6 @@ static void init_config() {
   
   if (persist_exists(SHOW_LOCATION))
     s_show_location = persist_read_bool(SHOW_LOCATION);
-  
-  config_weather_layer(s_show_weather, s_show_location);
   
   // weather & location diaplay
   memset(s_conditions_buffer, 0, sizeof(s_conditions_buffer));
@@ -93,8 +102,6 @@ static void init_config() {
   if (persist_exists(WEATHER_CITY_KEY))
     persist_read_string(WEATHER_CITY_KEY, s_city_buffer, sizeof(s_city_buffer));
   
-  config_weather_buffer(s_conditions_buffer, s_temperature_buffer, s_city_buffer);
-  
   // location setting
   memset(s_default_location, 0, sizeof(s_default_location));
   if (persist_exists(DEFAULT_LOCATION))
@@ -104,12 +111,21 @@ static void init_config() {
   if (persist_exists(LOCATION_OPT))
     persist_read_string(LOCATION_OPT, s_location_opt, sizeof(s_location_opt));
   
-  config_location_setting(s_default_location, s_location_opt);
+  // color scheme
+  memset(color_scheme, 0, sizeof(color_scheme));
+  if (persist_exists(COLOR_SCHEME)) {
+    persist_read_string(COLOR_SCHEME, color_scheme, sizeof(color_scheme));
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "color scheme: %s", color_scheme);
+    update_color_scheme(color_scheme);
+  }
 }
 
 /*********************************** App **************************************/
 static void init() {
   srand(time(NULL));
+  
+  // init configuration
+  init_config();
 
   // init main window
   s_main_window = window_create();
@@ -118,9 +134,6 @@ static void init() {
     .unload = window_unload,
   });
   window_stack_push(s_main_window, true);
-  
-  // init configuration
-  init_config();
   
   // init weather
   refresh_weather_display();
@@ -135,9 +148,10 @@ static void init() {
   app_message_register_outbox_sent(outbox_sent_callback);
   
   // open AppMessage
+  int inbox_size = 1024;
   APP_LOG(APP_LOG_LEVEL_INFO, "inbox: %d, outbox: %d", 
-          APP_MESSAGE_INBOX_SIZE_MINIMUM, APP_MESSAGE_OUTBOX_SIZE_MINIMUM);
-  app_message_open(APP_MESSAGE_INBOX_SIZE_MINIMUM, APP_MESSAGE_OUTBOX_SIZE_MINIMUM);
+          (int)inbox_size, APP_MESSAGE_OUTBOX_SIZE_MINIMUM);
+  app_message_open(inbox_size, APP_MESSAGE_OUTBOX_SIZE_MINIMUM);
 }
 
 static void deinit() {

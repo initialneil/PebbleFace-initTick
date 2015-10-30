@@ -1,11 +1,11 @@
 #include "text.h"
-#include "common.h"
 #include <ctype.h>
 
 static TextLayer *s_month_layer, *s_date_layer, *s_weekday_layer;
 static GPoint s_center;
 static int s_radius = 0, s_win_w = 0, s_win_h = 0;
-
+static struct CONFIG_TYPE *config;
+  
 static bool s_date_inited;
 static Time s_cur_time;
 static char month_buffer[16], date_buffer[16], weekday_buffer[16];
@@ -34,26 +34,21 @@ void init_date_layer(Window *window) {
 
   // Create month TextLayer
   s_month_layer = text_layer_create(GRect(s_win_w - 40, 0, 40, 25));
-  text_layer_set_text_color(s_month_layer, MONTH_COLOR);
-  text_layer_set_background_color(s_month_layer, MONTH_BACKGROUND_COLOR);
-  text_layer_set_text_alignment(s_month_layer, GTextAlignmentLeft);
-  text_layer_set_font(s_month_layer, s_text_font);
   
   // Create date TextLayer
   s_date_layer = text_layer_create(GRect(s_win_w - 21, 0, 20, 25));
-  text_layer_set_text_color(s_date_layer, DATE_COLOR);
-  text_layer_set_background_color(s_date_layer, DATE_BACKGROUND_COLOR);
-  text_layer_set_text_alignment(s_date_layer, GTextAlignmentRight);
-  text_layer_set_font(s_date_layer, s_text_font);
   
   // Create Weekday TextLayer
   s_weekday_layer = text_layer_create(GRect(1, 0, 50, 20));
-  text_layer_set_text_color(s_weekday_layer, WEEKDAY_COLOR);
-  text_layer_set_background_color(s_weekday_layer, WEEKDAY_BACKGROUND_COLOR);
-  text_layer_set_text_alignment(s_weekday_layer, GTextAlignmentLeft);
-  text_layer_set_font(s_weekday_layer, s_text_font);
+  
+  // Config text layers
+  refresh_text_config();
   
   s_date_inited = false;
+}
+
+void pass_config_to_text(struct CONFIG_TYPE *app_config) {
+  config = app_config;
 }
 
 TextLayer * get_month_layer() {
@@ -66,6 +61,33 @@ TextLayer * get_date_layer() {
 
 TextLayer * get_weekday_layer() {
   return s_weekday_layer;
+}
+
+void refresh_text_config() {
+  // Config month Textlayer
+  text_layer_set_text_color(s_month_layer, config->MONTH_COLOR);
+  text_layer_set_background_color(s_month_layer, config->MONTH_BACKGROUND_COLOR);
+  text_layer_set_text_alignment(s_month_layer, GTextAlignmentLeft);
+  text_layer_set_font(s_month_layer, s_text_font);
+  
+  // Config date TextLayer
+  text_layer_set_text_color(s_date_layer, config->DATE_COLOR);
+  text_layer_set_background_color(s_date_layer, config->DATE_BACKGROUND_COLOR);
+  text_layer_set_text_alignment(s_date_layer, GTextAlignmentRight);
+  text_layer_set_font(s_date_layer, s_text_font);
+  
+  // Config Weekday TextLayer
+  text_layer_set_text_color(s_weekday_layer, config->WEEKDAY_COLOR);
+  text_layer_set_background_color(s_weekday_layer, config->WEEKDAY_BACKGROUND_COLOR);
+  text_layer_set_text_alignment(s_weekday_layer, GTextAlignmentLeft);
+  text_layer_set_font(s_weekday_layer, s_text_font);
+  
+  if (s_month_layer)
+    layer_mark_dirty(text_layer_get_layer(s_month_layer));
+  if (s_date_layer)
+    layer_mark_dirty(text_layer_get_layer(s_date_layer));
+  if (s_weekday_layer)
+    layer_mark_dirty(text_layer_get_layer(s_weekday_layer));
 }
 
 void convertToUpperCase(char *sPtr, int n)
