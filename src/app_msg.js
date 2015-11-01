@@ -1,6 +1,6 @@
 // Got from OpenWeatherMap's API example
 var myAPIKey = 'bd82977b86bf27fb59a04b61b657fb6f';
-var show_second, show_weather, show_location;
+var show_second, show_weather, weather_celsius, show_location, show_hour_digits;
 var default_location = "", location_opt = "";
 var color_scheme = "";
 
@@ -51,21 +51,19 @@ Pebble.addEventListener('webviewclosed', function(e) {
 
   show_second = configData.show_second;
   show_weather = configData.show_weather;
+  weather_celsius = configData.weather_celsius;
   show_location = configData.show_location;
+  show_hour_digits = configData.show_hour_digits;
   default_location = configData.default_location;
   location_opt = configData.location_opt;
   color_scheme = configData.color_scheme;
-  
-  console.log("show_weather = " + show_weather);
-  console.log("show_location = " + show_location);
-  console.log("default_location = " + default_location);
-  console.log("location_opt = " + location_opt);
-  console.log("color_scheme = " + color_scheme);
 
   var dict = {
     'SHOW_SECOND': show_second,
     'SHOW_WEATHER': show_weather,
+    'WEATHER_CELSIUS': weather_celsius,
     'SHOW_LOCATION': show_location,
+    'SHOW_HOUR_DIGITS': show_hour_digits,
     'DEFAULT_LOCATION': default_location,
     'LOCATION_OPT': location_opt,
     'COLOR_SCHEME': color_scheme,

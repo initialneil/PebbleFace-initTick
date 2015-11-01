@@ -13,7 +13,7 @@ static TextLayer *s_month_layer, *s_date_layer, *s_weekday_layer;
 static TextLayer *s_temperature_layer, *s_city_layer;
 
 static struct CONFIG_TYPE config;
-static char s_conditions_buffer[32], s_temperature_buffer[32], s_city_buffer[32];
+static char s_conditions_buffer[32], s_temperature_buffer[8], s_city_buffer[32];
 static bool s_show_weather = true, s_show_location = true;
 static char s_default_location[32], s_location_opt[32];
 static char color_scheme[1024];
@@ -57,6 +57,8 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
   layer_destroy(s_panel_layer);
+  release_panel_layer();
+  
   layer_destroy(s_hand_layer);
   
   text_layer_destroy(s_month_layer);
@@ -86,8 +88,14 @@ static void init_config() {
   if (persist_exists(SHOW_WEATHER))
     s_show_weather = persist_read_bool(SHOW_WEATHER);
   
+  if (persist_exists(WEATHER_CELSIUS))
+    config.WEATHER_CELSIUS = persist_read_bool(WEATHER_CELSIUS);
+  
   if (persist_exists(SHOW_LOCATION))
     s_show_location = persist_read_bool(SHOW_LOCATION);
+  
+  if (persist_exists(SHOW_HOUR_DIGITS))
+    config.SHOW_HOUR_DIGITS = persist_read_bool(SHOW_HOUR_DIGITS);
   
   // weather & location diaplay
   memset(s_conditions_buffer, 0, sizeof(s_conditions_buffer));

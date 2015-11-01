@@ -22,6 +22,8 @@ enum APP_MSG_TYPE {
   DEFAULT_LOCATION,
   LOCATION_OPT,
   COLOR_SCHEME,
+  WEATHER_CELSIUS,
+  SHOW_HOUR_DIGITS,
 };
 
 static bool s_pebblekit_js_ready = false;

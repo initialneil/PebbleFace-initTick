@@ -46,7 +46,7 @@ void update_color_scheme(const char color_scheme[]) {
     p0 = p1 + 1;
     p1 = strchr(p0, delimiter);
     
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "%s : %s", str_key, str_val);    
+    //APP_LOG(APP_LOG_LEVEL_DEBUG, "%s : %s", str_key, str_val);    
 
     // set to config
     set_config_color_value(config, str_key, HexStringToGColor(str_val));

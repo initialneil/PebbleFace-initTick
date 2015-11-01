@@ -36,8 +36,8 @@ void init_weather_layer(Window *window) {
   s_text_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DIGITAL_16));
   
   // create temperature TextLayer
-  //s_temperature_layer = text_layer_create(GRect(s_win_w - 48, s_win_h - 18, 30, 18));
-  s_temperature_layer = text_layer_create(GRect(1, s_win_h - 20, 30, 18));
+  //s_temperature_layer = text_layer_create(GRect(s_win_w - 48, s_win_h - 18, 50, 18));
+  s_temperature_layer = text_layer_create(GRect(1, s_win_h - 20, 50, 18));
   
   // create city TextLayer
   s_city_layer = text_layer_create(GRect(22, s_win_h - 65, s_win_w - 44, 18));
@@ -99,9 +99,25 @@ void set_conditions_buffer(const char conditions_buffer[]) {
   persist_write_string(WEATHER_ICON_KEY, conditions_buffer);
 }
 
-void set_temperature_buffer(const char temperature_buffer[]) {
-  strcpy(s_temperature_buffer, temperature_buffer);
-  persist_write_string(WEATHER_TEMPERATURE_KEY, temperature_buffer);
+void set_temperature_format(bool weather_celsius) {
+  config->WEATHER_CELSIUS = weather_celsius;
+  persist_write_bool(WEATHER_CELSIUS, weather_celsius);
+}
+
+void set_temperature_buffer(int temperature) {
+  if (temperature == -9999)
+    return;
+  
+  if (config->WEATHER_CELSIUS) {
+    snprintf(s_temperature_buffer, 8, "%d.C", temperature);
+    APP_LOG(APP_LOG_LEVEL_INFO, "Celsius temperature = %d", temperature);
+  } else {
+    int temp = temperature * 9 / 5 + 32;
+    snprintf(s_temperature_buffer, 8, "%d.F", temp);
+    APP_LOG(APP_LOG_LEVEL_INFO, "Fahrenheit temperature = %d", temp);
+  }
+  
+  persist_write_string(WEATHER_TEMPERATURE_KEY, s_temperature_buffer);
 }
 
 void set_city_buffer(const char city_buffer[]) {

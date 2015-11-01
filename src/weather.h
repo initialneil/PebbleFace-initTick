@@ -16,7 +16,8 @@ void set_default_location(const char default_location[]);
 void set_location_opt(const char location_opt[]);
 
 void set_conditions_buffer(const char conditions_buffer[]);
-void set_temperature_buffer(const char temperature_buffer[]);
+void set_temperature_format(bool weather_celsius);
+void set_temperature_buffer(int temperature);
 void set_city_buffer(const char city_buffer[]);
 
 static void update_weather_proc(Layer *layer, GContext *ctx);

@@ -4,9 +4,11 @@
         "DEFAULT_LOCATION": 7,
         "LOCATION_OPT": 8,
         "PEBBLEKIT_JS_READY": 0,
+        "SHOW_HOUR_DIGITS": 11,
         "SHOW_LOCATION": 6,
         "SHOW_SECOND": 1,
         "SHOW_WEATHER": 5,
+        "WEATHER_CELSIUS": 10,
         "WEATHER_CITY_KEY": 4,
         "WEATHER_ICON_KEY": 2,
         "WEATHER_TEMPERATURE_KEY": 3
@@ -74,7 +76,7 @@
         "chalk"
     ],
     "uuid": "ec6a946a-238b-49f1-ae4f-2013ba38c34c",
-    "versionLabel": "1.24",
+    "versionLabel": "1.26",
     "watchapp": {
         "watchface": true
     }

@@ -111,10 +111,17 @@ void set_date_layer_cur_time(struct tm *tick_time) {
   strftime(month_buffer, sizeof(month_buffer), "%b", tick_time);
   text_layer_set_text(s_month_layer, month_buffer);
   convertToUpperCase(month_buffer, sizeof(month_buffer));
+  
   // set date
   strftime(date_buffer, sizeof(date_buffer), "%d", tick_time);
+  int date = atoi(date_buffer);
+  if (date < 10) {
+    date_buffer[0] = date_buffer[1];
+    date_buffer[1] = ' ';
+  }
   text_layer_set_text(s_date_layer, date_buffer);
   convertToUpperCase(date_buffer, sizeof(date_buffer));
+  
   // set weekday
   strftime(weekday_buffer, sizeof(weekday_buffer), "%a", tick_time);
   text_layer_set_text(s_weekday_layer, weekday_buffer);

@@ -22,6 +22,8 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
 
   // For all items
   while(t != NULL) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "app msg key = %d", (int)t->key);
+    
     // Which key was received?
     switch(t->key) {
       // PebbleKit JS Ready
@@ -58,9 +60,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         break;
         
       case WEATHER_TEMPERATURE_KEY:
-        snprintf(temperature_buffer, sizeof(temperature_buffer), "%d.C", (int)t->value->int32);
-        APP_LOG(APP_LOG_LEVEL_INFO, "temperature = %s", temperature_buffer);
-        set_temperature_buffer(temperature_buffer);
+        set_temperature_buffer((int)t->value->int32);
         break;
         
       case WEATHER_CITY_KEY:
@@ -89,6 +89,21 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         update_color_scheme(color_scheme);
         break;
       
+      // temperature format
+      case WEATHER_CELSIUS:
+        config_msg.WEATHER_CELSIUS = t->value->int8;
+        APP_LOG(APP_LOG_LEVEL_INFO, "weather format = %s", config_msg.WEATHER_CELSIUS ? "Celsius" : "Fahrenheit");
+        set_temperature_format(config_msg.WEATHER_CELSIUS);
+        set_temperature_buffer((int)t->value->int32);
+        break;
+      
+      // show hour digits or hour bars
+      case SHOW_HOUR_DIGITS:
+        config_msg.SHOW_HOUR_DIGITS = t->value->int8;
+        set_show_hour_digits(config_msg.SHOW_HOUR_DIGITS);
+        APP_LOG(APP_LOG_LEVEL_INFO, "show hour digits = %d", config_msg.SHOW_HOUR_DIGITS);
+        break;
+      
       case APP_MSG_OUT_OF_MEMORY:
         APP_LOG(APP_LOG_LEVEL_ERROR, "Out of memory!");
         break;
@@ -106,5 +121,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   refresh_text_config();
   refresh_weather_display();
 }
+
+
 
 

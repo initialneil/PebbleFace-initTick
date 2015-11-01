@@ -2,6 +2,8 @@
 
 struct CONFIG_TYPE {
   bool SHOW_SECOND;
+  bool WEATHER_CELSIUS;
+  bool SHOW_HOUR_DIGITS;
   
   // panel color
   GColor MINUTE_DOTS_COLOR;
@@ -48,6 +50,8 @@ struct CONFIG_TYPE {
 static void load_default_config(struct CONFIG_TYPE *config) {
   APP_LOG(APP_LOG_LEVEL_INFO, "load default config");
   config->SHOW_SECOND = false;
+  config->WEATHER_CELSIUS = true;
+  config->SHOW_HOUR_DIGITS = true;
   
   // panel color
   config->MINUTE_DOTS_COLOR = GColorDarkGray;
