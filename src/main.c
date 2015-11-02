@@ -16,7 +16,7 @@ static struct CONFIG_TYPE config;
 static char s_conditions_buffer[32], s_temperature_buffer[8], s_city_buffer[32];
 static bool s_show_weather = true, s_show_location = true;
 static char s_default_location[32], s_location_opt[32];
-static char color_scheme[1024];
+static char color_scheme[256];
 
 /************************************ UI **************************************/
 static void window_load(Window *window) {
@@ -120,11 +120,15 @@ static void init_config() {
     persist_read_string(LOCATION_OPT, s_location_opt, sizeof(s_location_opt));
   
   // color scheme
-  memset(color_scheme, 0, sizeof(color_scheme));
-  if (persist_exists(COLOR_SCHEME)) {
-    persist_read_string(COLOR_SCHEME, color_scheme, sizeof(color_scheme));
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "color scheme: %s", color_scheme);
-    update_color_scheme(color_scheme);
+  if (persist_exists(COLOR_SCHEME_TYPE_COUNT)) {
+    int count = persist_read_int(COLOR_SCHEME_TYPE_COUNT);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "reading color scheme(%d)", count);
+    for (int i = 1; i <= count; i++) {
+      memset(color_scheme, 0, sizeof(color_scheme));
+      persist_read_string(COLOR_SCHEME_TYPE_COUNT + i, color_scheme, sizeof(color_scheme));
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "reading: %s", color_scheme);
+      update_color_scheme(color_scheme, false);
+    }
   }
 }
 

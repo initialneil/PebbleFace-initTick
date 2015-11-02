@@ -86,7 +86,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
       case COLOR_SCHEME:
         snprintf(color_scheme, sizeof(color_scheme), "%s", t->value->cstring);
         APP_LOG(APP_LOG_LEVEL_INFO, "color_scheme = %s", color_scheme);
-        update_color_scheme(color_scheme);
+        update_color_scheme(color_scheme, true);
         break;
       
       // temperature format

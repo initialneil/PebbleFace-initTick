@@ -23,7 +23,14 @@ void update_hand_show_second(struct CONFIG_TYPE config_msg) {
   }
 }
 
-void update_color_scheme(const char color_scheme[]) {
+void update_color_scheme(const char color_scheme[], bool b_write) {  
+  // persist write 's max length is 256
+  int count = 0;
+  bool pending_write = false;
+  static char sub_scheme[256];
+  const char *scheme = color_scheme;
+  
+  // update color
   char delimiter = ',';
   static char str_key[32], str_val[32];
   
@@ -39,6 +46,9 @@ void update_color_scheme(const char color_scheme[]) {
     
     if (p1 == NULL)
       break;
+    if (!pending_write) {
+      pending_write = true;
+    }
     
     // find color value
     strncpy(str_val, p0, p1 - p0);
@@ -46,13 +56,32 @@ void update_color_scheme(const char color_scheme[]) {
     p0 = p1 + 1;
     p1 = strchr(p0, delimiter);
     
-    //APP_LOG(APP_LOG_LEVEL_DEBUG, "%s : %s", str_key, str_val);    
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "%s : %s", str_key, str_val);    
 
     // set to config
     set_config_color_value(config, str_key, HexStringToGColor(str_val));
     
-    // write to persist
-    persist_write_string(COLOR_SCHEME, color_scheme);
+    // cut string to write if length close to 256
+    if (b_write && p1 != NULL && p1 - scheme > 200) {
+      count++;
+      strncpy(sub_scheme, scheme, p1 - scheme + 1);
+      sub_scheme[p1 - scheme + 1] = '\0';
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "writing(%d): %s", p1 - scheme + 1, sub_scheme);
+      persist_write_string(COLOR_SCHEME_TYPE_COUNT + count, sub_scheme);
+      scheme = p0;
+      pending_write = false;
+    }
+  }
+  
+  if (b_write) {
+    if (pending_write) {
+      count++;
+      strncpy(sub_scheme, scheme, p0 - scheme);
+      sub_scheme[p0 - scheme] = '\0';
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "writing(%d): %s", p0 - scheme, sub_scheme);
+      persist_write_string(COLOR_SCHEME_TYPE_COUNT + count, sub_scheme);
+    }
+    persist_write_int(COLOR_SCHEME_TYPE_COUNT, count);
   }
 }
 

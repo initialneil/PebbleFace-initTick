@@ -26,6 +26,10 @@ enum APP_MSG_TYPE {
   SHOW_HOUR_DIGITS,
 };
 
+enum COLOR_SCHEME_TYPE {
+  COLOR_SCHEME_TYPE_COUNT = 100,
+};
+
 static bool s_pebblekit_js_ready = false;
 static void set_pebblekit_js_ready(bool ready) {
   s_pebblekit_js_ready = ready;
