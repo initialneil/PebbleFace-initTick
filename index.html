@@ -42,7 +42,11 @@
       <label class="item">
         Show Hour Digits
         <input type="checkbox" class="item-toggle" name="show-hour-digits" checked>
-      </label>	
+      </label>
+      <label class="item">
+        Show Battery Level
+        <input type="checkbox" class="item-toggle" name="show-battery-level" checked>
+      </label>
     </div>
   </div>
   
@@ -116,11 +120,11 @@
       </label>
       <label class="item">
         Hour Dot
-        <input type="text" class="item-color item-color-normal" name="color-hour-dot" value="#00FF00">
+        <input type="text" class="item-color item-color-normal" name="color-hour-dot" value="#AAAAAA">
       </label>
       <label class="item">
         Hour Dot Emphasis <small>(for 3,6,9,12)</small>
-        <input type="text" class="item-color item-color-normal" name="color-hour-dot-emphasis" value="#00FF00">
+        <input type="text" class="item-color item-color-normal" name="color-hour-dot-emphasis" value="#AAAAAA">
       </label>
     </div>
   </div>
@@ -161,6 +165,20 @@
       <label class="item">
         Location Text
         <input type="text" class="item-color item-color-normal" name="color-location" value="#FFFFFF">
+      </label>
+    </div>
+  </div>
+
+  <div class="item-container">
+    <div class="item-container-header">Color for Battery</div>
+    <div class="item-container-content">
+      <label class="item">
+        Battery Level <small>(High)</small>
+        <input type="text" class="item-color item-color-normal" name="color-battery-level-high" value="#00FF00">
+      </label>
+      <label class="item">
+        Battery Level <small>(Low)</small>
+        <input type="text" class="item-color item-color-normal" name="color-battery-level-low" value="#FF0000">
       </label>
     </div>
   </div>
