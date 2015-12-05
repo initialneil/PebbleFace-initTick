@@ -3,6 +3,24 @@
   submitHandler();
 })();
 
+$('.color-scheme').on('click', function() {
+  scheme = $(this).data('info');
+  scheme = scheme.split(',');
+  $(scheme).each(function(index, key) {
+    if (index % 2 == 0) {
+      var value = scheme[index+1];
+      if (value) {
+        key = key.replace(/_/g, '-');
+        value = value.replace('0x', '#');
+        $('input[name=' + key).val(value);
+        $('input[name=' + key).parent().children('.item-styled-color').children('.value').css('background', '#FFFFFF');
+        //console.log(index, key, value);
+      }
+    }
+  });
+  
+});
+
 function submitHandler() {
   var $submitButton = $('#submitButton');
 
