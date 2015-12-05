@@ -8,3 +8,7 @@
   text-align: center;
 }
 
+.owl-item {
+  width: 170px !important;
+  padding: 0px;
+}
