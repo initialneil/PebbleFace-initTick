@@ -18,7 +18,7 @@ $('.color-scheme').on('click', function() {
       }
     }
   });
-  
+  alert('apply color scheme!');
 });
 
 function submitHandler() {
