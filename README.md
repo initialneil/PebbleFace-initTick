@@ -1,5 +1,5 @@
 # PebbleFace-initTick
-Analog watch face for pebble like Apple Watch.
+Analog WatchFace for Pebble.
 
 ![alt text](https://raw.githubusercontent.com/initialneil/PebbleFace-initTick/master/screenshots/initTick-banner.png "initTick (Preset #1)")
 ![alt text](https://raw.githubusercontent.com/initialneil/PebbleFace-initTick/master/screenshots/initTick.gif "initTick (Preset #1)")
