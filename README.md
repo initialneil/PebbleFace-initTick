@@ -1,5 +1,5 @@
 # PebbleFace-initTick
-Analog Watch Face like Apple Watch. This is a free watch face for fun.
+Analog WatchFace for Pebble.
 
 Website automatically hosted by GitHub at: http://initialneil.github.io/PebbleFace-initTick/
 
